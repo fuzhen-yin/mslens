@@ -1,0 +1,71 @@
+<html>
+
+<head>
+    <title>Annotation 1</title>
+</head>
+
+<body>
+    <h1>Annotation 1 - 400 Images</h1>
+    <p>Examining GenAI's performance in labeling streetview images.  </p>
+    <p>Added additional images for downtown. In downtown, images are collected every 50 meters along roads. In the rest of the area, images are collected every 500 meters.</p>
+
+    <p id="img_data_container"> </p>
+</body>
+
+
+<script>
+
+    // Replace with the actual URL of your JSON data
+    const url = 'https://raw.githubusercontent.com/fuzhen-yin/mslens/refs/heads/main/test/20260306_svi_info_st_49_intct_3278_img.json'; 
+
+    fetch(url)
+    .then(response => {
+    // Check if the request was successful
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        // Parse the JSON data from the response
+        return response.json(); 
+            })
+            .then(data => {
+                // Work with the JSON data here
+                console.log(data); 
+
+                // Example: Displaying user names in the div
+                const dataContainer = document.getElementById('img_data_container');
+                data.forEach(user => {
+                    const h = document.createElement('h2');
+                    h.textContent = "1 - " + user.intsct_id + " - intersection id";
+                    dataContainer.appendChild(h);
+
+                    const hh = document.createElement('h3');
+                    hh.textContent = user.properties_id;
+                    dataContainer.appendChild(hh);
+
+                    const p = document.createElement('p');
+                    p.textContent = "Coordinates: "  + user.geometry_coordinates + "   ";
+                    p.textContent += "Captured at: " +  user.properties_captured_at;
+                    dataContainer.appendChild(p);
+                    dataContainer.appendChild(document.createElement('br'));
+
+                    const pp = document.createElement('p');
+                    pp.innerHTML = "<img src=\"" + user.img_url + "\" width=\"1200px\" >";
+
+                    dataContainer.appendChild(pp);
+                    dataContainer.appendChild(document.createElement('br'));
+
+
+
+
+                });
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the fetch operation
+                console.error('There was a problem with the fetch operation:', error);
+            });
+
+
+</script>
+
+
+</html>
